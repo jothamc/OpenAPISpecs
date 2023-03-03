@@ -7,7 +7,7 @@ info:
     a request with a timezone.
 
 servers:
-  - url: http://worldtimeapi.org/api/
+  - url: https://worldtimeapi.org/api/
 
 paths:
   /timezone:
