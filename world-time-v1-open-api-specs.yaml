@@ -12,19 +12,15 @@ servers:
 paths:
   /timezone:
     get:
+      operationId: timezone
       summary: a listing of all timezones.
       responses:
         default:
           $ref: "#/components/responses/SuccessfulListJsonResponse"
-  /timezone.txt:
-    get:
-      summary: a listing of all timezones.
-      responses:
-        default:
-          $ref: "#/components/responses/SuccessfulListTextResponse"
 
   /timezone/{area}:
     get:
+      operationId: timezoneArea
       summary: a listing of all timezones available for that area.
       parameters:
         - name: area
@@ -37,23 +33,10 @@ paths:
           $ref: "#/components/responses/SuccessfulListJsonResponse"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
-  /timezone/{area}.txt:
-    get:
-      summary: a listing of all timezones available for that area.
-      parameters:
-        - name: area
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          $ref: "#/components/responses/SuccessfulListTextResponse"
-        default:
-          $ref: "#/components/responses/ErrorTextResponse"
 
   /timezone/{area}/{location}:
     get:
+      operationId: getTimeByAreaLocation
       summary: request the current time for a timezone.
       parameters:
         - name: area
@@ -71,28 +54,10 @@ paths:
           $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
-  /timezone/{area}/{location}.txt:
-    get:
-      summary: request the current time for a timezone.
-      parameters:
-        - name: area
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: location
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
-        default:
-          $ref: "#/components/responses/ErrorTextResponse"
 
   /timezone/{area}/{location}/{region}:
     get:
+      operationId: getTimeByAreaLocationRegion
       summary: request the current time for a timezone.
       parameters:
         - name: area
@@ -115,84 +80,6 @@ paths:
           $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
-  /timezone/{area}/{location}/{region}.txt:
-    get:
-      summary: request the current time for a timezone.
-      parameters:
-        - name: area
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: location
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: region
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
-        default:
-          $ref: "#/components/responses/ErrorTextResponse"
-
-  /ip:
-    get:
-      summary: >-
-        request the current time based on the ip of the request.
-        note: this is a "best guess" obtained from open-source data.
-      responses:
-        '200':
-          $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
-        default:
-          $ref: "#/components/responses/ErrorJsonResponse"
-  /ip.txt:
-    get:
-      summary: >-
-        request the current time based on the ip of the request.
-        note: this is a "best guess" obtained from open-source data.
-      responses:
-        '200':
-          $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
-        default:
-          $ref: "#/components/responses/ErrorTextResponse"
-
-  /ip/{ipv4}:
-    get:
-      summary: >-
-        request the current time based on the ip of the request.
-        note: this is a "best guess" obtained from open-source data.
-      parameters:
-        - name: ipv4
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
-        default:
-          $ref: "#/components/responses/ErrorJsonResponse"
-  /ip/{ipv4}.txt:
-    get:
-      summary: >-
-        request the current time based on the ip of the request.
-        note: this is a "best guess" obtained from open-source data.
-      parameters:
-        - name: ipv4
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
-        default:
-          $ref: "#/components/responses/ErrorTextResponse"
 
 components:
   responses:
