@@ -2,8 +2,9 @@ openapi: 3.0.0
 info:
   title: Swiss public transport API
   description: >-
-    The Transport API allows developers to build their own applications using
-    public timetable data for Swiss public transport.
+    The Transport API allows developers to build their own applications using public timetable data for Swiss public transport.
+    
+    - For all endpoints, the `fields[]` parameter can be used to limit the response data by returning only the fields listed. The API is aware of the hierarchy, if you set a field, everything below is in the response unless a more specific (further down in the hierarchy) field is set.
   contact:
     email: transport@opendata.ch
   license:
@@ -21,10 +22,7 @@ paths:
         - resources
       summary: Returns the matching locations for the given parameters
       description: >-
-        Returns the matching locations for the given parameters. Either query or
-        ( x and y ) are required. The locations in the response are scored to
-        determine which is the most exact location. This method can return a
-        refine response, what means that the request has to be redone.
+        Returns the matching locations for the given parameters. Either query or (x and y) are required. The locations in the response are scored to determine which is the most exact location. This method can return a refine response, what means that the request has to be redone.
       operationId: getLocations
       parameters:
         - name: query
@@ -42,7 +40,7 @@ paths:
             type: number
             format: double
             example: 47.476001
-        - name: 'y'
+        - name: y
           in: query
           required: false
           description: Longitude
@@ -54,7 +52,7 @@ paths:
           in: query
           required: false
           description: |-
-            Only with query parameter. Specifies the location type.
+            This can only be used with query parameter to specify the location type.
             - all (default): Looks up for all types of locations
             - station: Looks up for stations (train station, bus station)
             - poi: Looks up for points of interest (Clock tower, China garden)
@@ -67,21 +65,6 @@ paths:
               - poi
               - address
             default: all
-        - name: fields[]
-          in: query
-          required: false
-          description: >-
-            Limit the response data. The API is aware of the hierarchy, if you
-            set a field, everything below is in the response unless a more
-            specific (further down in the hierarchy) field is set.
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
-          example:
-            - stations/name
-            - stations/coordinate
       responses:
         '200':
           description: Ok
@@ -119,15 +102,14 @@ paths:
           in: query
           required: false
           description: >-
-            Specifies via location. When specifying several vias, array notation
-            (via[]=via1&via[]=via2) is required.
+            Specifies via location.
           example: Bern
           schema:
             type: string
         - name: via[]
           in: query
           required: false
-          description: Specifies up to five via locations.
+          description: Specifies multiple (up to 5) via locations.
           explode: true
           schema:
             type: array
@@ -163,7 +145,7 @@ paths:
         - name: transportations
           in: query
           required: false
-          description: Transportation mean
+          description: Transportation means
           schema:
             type: string
             enum:
@@ -176,7 +158,7 @@ paths:
           in: query
           required: false
           description: >-
-            For more than one transportation mean, array notation
+            For more than one transportation means, array notation
             (transportations[]=mean1&transportations[]=mean2) is required.
           explode: true
           schema:
@@ -190,8 +172,7 @@ paths:
           in: query
           required: false
           description: >-
-            1 - 16. Specifies the number of connections to return. If several
-            connections depart at the same time they are counted as 1.
+            1 - 16. Specifies the number of connections to return. If several connections depart at the same time they are counted as 1.
           schema:
             type: integer
             example: 4
@@ -255,21 +236,6 @@ paths:
               - assisted_boarding
               - advanced_notice
             example: independent_boarding
-        - name: fields[]
-          in: query
-          required: false
-          description: >-
-            Limit the response data. The API is aware of the hierarchy, if you
-            set a field, everything below is in the response unless a more
-            specific (further down in the hierarchy) field is set.
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
-          example:
-            - connections/from/departure
-            - connections/to/departure
       responses:
         '200':
           description: Ok
@@ -313,9 +279,7 @@ paths:
             type: integer
           description: >-
             Number of departing connections to return. This is not a hard limit
-            - if multiple connections leave at the same time it'll return any
-            connections that leave at the same time as the last connection
-            within the limit.
+            - if multiple connections leave at the same time it'll return any connections that leave at the same time as the last connection within the limit.
           example: 15
         - name: transportations
           in: query
@@ -333,8 +297,7 @@ paths:
           in: query
           required: false
           description: >-
-            For more than one transportation mean, array notation
-            (transportations[]=mean1&transportations[]=mean2) is required.
+            For more than one transportation mean, array notation (transportations[]=mean1&transportations[]=mean2) is required.
           explode: true
           schema:
             type: array
@@ -362,22 +325,6 @@ paths:
               - departure
               - arrival
           example: departure
-        - name: fields[]
-          in: query
-          required: false
-          description: >-
-            Limit the response data. The API is aware of the hierarchy, if you
-            set a field, everything below is in the response unless a more
-            specific (further down in the hierarchy) field is set.
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
-          example:
-            - stationboard/to
-            - stationboard/stop/departure
-            - stationboard/stop/platform
       responses:
         '200':
           description: Ok
@@ -395,8 +342,7 @@ components:
   schemas:
     Coordinates:
       description: >-
-        Represents the type, latitude (x) and longitude (y) of a given station's
-        coordinates.
+        Represents the type, latitude (x) and longitude (y) of a given station's coordinates.
       type: object
       properties:
         type:
@@ -439,7 +385,7 @@ components:
                 type: string
                 example: tram
     Station:
-      description: Represents the properties for a given statino.
+      description: Represents the properties for a given station.
       type: object
       properties:
         id:
@@ -474,8 +420,7 @@ components:
           nullable: true
     Prognosis:
       description: >-
-        A prognosis contains "realtime" informations on the status of a
-        connection checkpoint.
+        A prognosis contains "realtime" informations on the status of a connection checkpoint.
       type: object
       properties:
         platform:
@@ -499,15 +444,13 @@ components:
           type: string
           nullable: true
           description: >-
-            The predicted maximum estimated occupation load of 1st class
-            coaches.
+            The predicted maximum estimated occupation load of 1st class coaches.
           example: '1'
         capacity2nd:
           type: string
           nullable: true
           description: >-
-            The predicted maximum estimated occupation load of 2nd class
-            coaches.
+            The predicted maximum estimated occupation load of 2nd class coaches.
           example: '2'
     Checkpoint:
       description: >-
@@ -774,4 +717,4 @@ components:
             properties:
               message:
                 type: string
-                example: No route found for "GET /v1/{route}"
+                example: No route found for 'GET /v1/{route}'
