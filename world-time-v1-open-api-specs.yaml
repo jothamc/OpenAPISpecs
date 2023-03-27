@@ -13,7 +13,7 @@ paths:
   /timezone:
     get:
       operationId: timezone
-      summary: a listing of all timezones.
+      description: Returns a listing of all timezones in the format `area/location` or `area/location/region`.
       responses:
         default:
           $ref: "#/components/responses/SuccessfulListJsonResponse"
@@ -21,13 +21,25 @@ paths:
   /timezone/{area}:
     get:
       operationId: timezoneArea
-      summary: a listing of all timezones available for that area.
+      description: Returns a listing of all timezones available for that area.
       parameters:
         - name: area
           in: path
           required: true
           schema:
             type: string
+            enum:
+              - Africa
+              - America
+              - Antarctica
+              - Asia
+              - Atlantic
+              - Australia
+              - Etc
+              - Europe
+              - Indian
+              - Pacific
+          example: Africa
       responses:
         '200':
           $ref: "#/components/responses/SuccessfulListJsonResponse"
@@ -37,18 +49,20 @@ paths:
   /timezone/{area}/{location}:
     get:
       operationId: getTimeByAreaLocation
-      summary: request the current time for a timezone.
+      description: Returns the current time for a timezone based on the area and location.
       parameters:
         - name: area
           in: path
           required: true
           schema:
             type: string
+          example: Africa
         - name: location
           in: path
           required: true
           schema:
             type: string
+          example: Lagos
       responses:
         '200':
           $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
@@ -58,23 +72,26 @@ paths:
   /timezone/{area}/{location}/{region}:
     get:
       operationId: getTimeByAreaLocationRegion
-      summary: request the current time for a timezone.
+      description: Returns the current time for a timezone based on the area, location and region.
       parameters:
         - name: area
           in: path
           required: true
           schema:
             type: string
+          example: America
         - name: location
           in: path
           required: true
           schema:
             type: string
+          example: Kentucky
         - name: region
           in: path
           required: true
           schema:
             type: string
+          example: Louisville
       responses:
         '200':
           $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
