@@ -3,7 +3,6 @@ info:
   title: Swiss public transport API
   description: >-
     The Transport API allows developers to build their own applications using public timetable data for Swiss public transport.
-    
     - For all endpoints, the `fields[]` parameter can be used to limit the response data by returning only the fields listed. The API is aware of the hierarchy, if you set a field, everything below is in the response unless a more specific (further down in the hierarchy) field is set.
   contact:
     email: transport@opendata.ch
