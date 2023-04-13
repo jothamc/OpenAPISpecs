@@ -64,6 +64,16 @@ paths:
               - poi
               - address
             default: all
+        - name: fields[]
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          example:
+            - stations/name
+            - stations/coordinate
       responses:
         '200':
           description: Ok
@@ -235,6 +245,16 @@ paths:
               - assisted_boarding
               - advanced_notice
             example: independent_boarding
+        - name: fields[]
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          example:
+            - connections/from/departure
+            - connections/to/departure
       responses:
         '200':
           description: Ok
@@ -324,6 +344,17 @@ paths:
               - departure
               - arrival
           example: departure
+        - name: fields[]
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          example:
+            - stationboard/to
+            - stationboard/stop/departure
+            - stationboard/stop/platform
       responses:
         '200':
           description: Ok
